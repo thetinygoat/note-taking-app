@@ -5,24 +5,7 @@ class App extends Component {
 	state = {
 		post: null
 	};
-	componentDidMount() {
-		fetch('https://note-taking-app-b6189.firebaseio.com/posts.json').then(
-			res => {
-				res.json().then(data => {
-					let d = Object.keys(data).map(key => {
-						return Object.assign(data[key], { id: key });
-					});
-					console.log(d);
-					this.setState(
-						{
-							post: d[0]
-						},
-						() => console.log(this.state)
-					);
-				});
-			}
-		);
-	}
+	componentDidMount() {}
 
 	handleAdd = () => {
 		let postData = {

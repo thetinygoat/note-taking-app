@@ -3,18 +3,9 @@ import { Editor, EditorState, ContentState } from 'draft-js';
 
 class TextEditor extends Component {
 	state = {
-		editorState: EditorState.createEmpty()
+		editorState: EditorState.createEmpty(),
+		body: null
 	};
-
-	componentWillReceiveProps(newProps) {
-		console.log(newProps.content);
-		let plaintext = newProps.content;
-		let content = ContentState.createFromText(plaintext);
-		this.setState({
-			editorState: EditorState.createWithContent(content)
-		});
-	}
-
 	handleChange = editorState => {
 		this.setState({ editorState });
 	};
@@ -29,6 +20,24 @@ class TextEditor extends Component {
 
 	componentDidMount() {
 		this.setEditorFocus();
+		fetch('https://note-taking-app-b6189.firebaseio.com/posts.json').then(
+			res => {
+				res.json().then(data => {
+					let d = Object.keys(data).map(key => {
+						return Object.assign(data[key], { id: key });
+					});
+					console.log(d);
+					let plainText = d[0].body;
+					let content = ContentState.createFromText(plainText);
+					this.setState(
+						{
+							editorState: EditorState.createWithContent(content)
+						},
+						() => console.log(this.state)
+					);
+				});
+			}
+		);
 	}
 	render() {
 		if (this.state)
