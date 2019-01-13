@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
-import { Editor, EditorState } from 'draft-js';
+import { Editor, EditorState, ContentState } from 'draft-js';
 
 class TextEditor extends Component {
 	state = {
 		editorState: EditorState.createEmpty()
 	};
+
+	componentWillReceiveProps(newProps) {
+		console.log(newProps.content);
+		let plaintext = newProps.content;
+		let content = ContentState.createFromText(plaintext);
+		this.setState({
+			editorState: EditorState.createWithContent(content)
+		});
+	}
 
 	handleChange = editorState => {
 		this.setState({ editorState });
@@ -22,15 +31,17 @@ class TextEditor extends Component {
 		this.setEditorFocus();
 	}
 	render() {
-		return (
-			<div style={styles.editor} onClick={this.setEditorFocus}>
-				<Editor
-					ref={this.setEditor}
-					editorState={this.state.editorState}
-					onChange={this.handleChange}
-				/>
-			</div>
-		);
+		if (this.state)
+			return (
+				<div style={styles.editor} onClick={this.setEditorFocus}>
+					<Editor
+						ref={this.setEditor}
+						editorState={this.state.editorState}
+						onChange={this.handleChange}
+					/>
+					<button onClick={this.handleNewState}>choose state</button>
+				</div>
+			);
 	}
 }
 
