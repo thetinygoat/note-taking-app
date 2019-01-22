@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import TextEditor from './containers/TextEditor/TextEditor';
+import TextEditor from './components/TextEditor/TextEditor';
+import NotesList from './components/NoteList/NoteList';
 
 class App extends Component {
 	state = {
@@ -36,6 +37,7 @@ class App extends Component {
 			<div>
 				<button onClick={this.handleAdd}>Click to add posts</button>
 				<TextEditor content={body} />
+				<NotesList />
 			</div>
 		);
 	}
